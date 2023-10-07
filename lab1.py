@@ -12,7 +12,5 @@ def finite_difference(h):
     solution_matr = np.zeros((num_of_equation, num_of_equation), dtype='int32')
     print(solution_matr)
 
-    
-
 
 finite_difference(0.25)
