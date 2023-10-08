@@ -29,10 +29,10 @@ def finite_difference(h, c):
                 coef_matr[flag, flag - (int(1 / h) - 1)] = -1
             flag += 1
     # print('Matrix of coefficients: \n', coef_matr, '\n')
-    plt.spy(coef_matr, markersize=7, marker='.', color='blue')
-    plt.grid()
-    plt.title('Visualization of coefficient matrix.')
-    plt.show()
+    # plt.spy(coef_matr, markersize=7, marker='.', color='blue')
+    # plt.grid()
+    # plt.title('Visualization of coefficient matrix.')
+    # plt.show()
 
     with open('solution_matr.txt', 'w') as f:
         print(coef_matr, file=f)
@@ -47,6 +47,11 @@ def finite_difference(h, c):
 
 
 coef_matr, right_part, clmn_num, row_num, zero_matr = finite_difference(0.01, 0.1)
+plt.spy(coef_matr, markersize=7, marker='.', color='blue')
+plt.grid()
+plt.title('Visualization of coefficient matrix.')
+plt.show()
+
 
 print('Matrix of coefficients: \n', coef_matr, '\n')
 print('Right part of matrix: \n', right_part, '\n')
@@ -73,6 +78,29 @@ def lu_solver(coef_matr, right_part):
     print('Solution time: ', finish - start)
 
     plt.imshow(solution_matr, cmap='rainbow')
+    plt.show()
+
+    flag = 0
+    grid_size = []
+    times = []
+    h_denominator = 4
+    while flag == 0:
+        start = time.time()
+        finite_difference(1 / h_denominator, 0.1)
+        finish = time.time()
+        grid_size.append(h_denominator + 1)
+        times.append(finish - start)
+        if h_denominator < 150:
+            h_denominator += 10
+        else:
+            break
+        print(h_denominator + 1)
+        print(finish - start)
+
+    plt.plot(grid_size, times)
+    plt.xlabel('Size of grid')
+    plt.ylabel('Solution time')
+    plt.grid(alpha=0.25)
     plt.show()
 
 lu_solver(coef_matr, right_part)
