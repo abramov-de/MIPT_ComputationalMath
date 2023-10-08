@@ -17,18 +17,19 @@ def finite_difference(h, c):
         for i in range(1, row_num - 1):
             zero_matr[i, j] = current
             coef_matr[current, current] = 4 + c * (h ** 2)
-            if i != row_num - 2:
+            if i != int(1 / h) - 1:
                 coef_matr[current, current + 1] = -1
             if i != 1:
                 coef_matr[current, current - 1] = -1
-            if j != clmn_num - 2:
-                coef_matr[current, current + (row_num - 2)] = -1
+            if j != int(1 / h) - 1:
+                coef_matr[current, current + (int(1 / h) - 1)] = -1
             if j != 1:
-                coef_matr[current, current - (row_num - 2)] = -1
+                coef_matr[current, current - (int(1 / h) - 1)] = -1
             current += 1
-    # print(coef_matr)
+    print('Matrix of coefficients: \n', coef_matr, '\n')
     plt.spy(coef_matr, markersize=7, marker='.', color='blue')
     plt.grid()
+    plt.title('Visualization of coefficient matrix.')
     plt.show()
 
     with open('solution_matr.txt', 'w') as f:
@@ -37,7 +38,7 @@ def finite_difference(h, c):
     right_part = np.empty(num_of_equation)
     right_part.fill(h ** 2)
 
-    # print(right_part)
+    print('Right part of matrix: \n', right_part, '\n')
     # print(type(right_part))
 
 
