@@ -46,7 +46,7 @@ def finite_difference(h, c):
     return coef_matr, right_part, clmn_num, row_num, zero_matr
 
 
-coef_matr, right_part, clmn_num, row_num, zero_matr = finite_difference(0.01, 0.1)
+coef_matr, right_part, clmn_num, row_num, zero_matr = finite_difference(0.25, 0.1)
 plt.spy(coef_matr, markersize=7, marker='.', color='blue')
 plt.grid()
 plt.title('Visualization of coefficient matrix.')
