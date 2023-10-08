@@ -9,11 +9,9 @@ def finite_difference(h, c):
     clmn_num = int((1 / h) + 1)
     zero_matr = np.zeros((row_num, clmn_num), dtype='float64')
 
-    # print(zero_matr)
-
     num_of_equation = (int(1 / h) - 1) * (int(1 / h) - 1)
     coef_matr = np.zeros((num_of_equation, num_of_equation), dtype='float64')
-    # print(coef_matr)
+
     flag = 0
     for j in range(1, clmn_num - 1):
         for i in range(1, row_num - 1):
@@ -28,30 +26,21 @@ def finite_difference(h, c):
             if j != 1:
                 coef_matr[flag, flag - (int(1 / h) - 1)] = -1
             flag += 1
-    # print('Matrix of coefficients: \n', coef_matr, '\n')
-    # plt.spy(coef_matr, markersize=7, marker='.', color='blue')
-    # plt.grid()
-    # plt.title('Visualization of coefficient matrix.')
-    # plt.show()
 
-    with open('solution_matr.txt', 'w') as f:
-        print(coef_matr, file=f)
+    # with open('coeff_matr.txt', 'w') as f:
+    #     print(coef_matr, file=f)
 
     right_part = np.empty(num_of_equation)
     right_part.fill(h ** 2)
 
-    # print('Right part of matrix: \n', right_part, '\n')
-    # print(type(right_part))
-
     return coef_matr, right_part, clmn_num, row_num, zero_matr
 
 
-coef_matr, right_part, clmn_num, row_num, zero_matr = finite_difference(0.25, 0.1)
+coef_matr, right_part, clmn_num, row_num, zero_matr = finite_difference(1/150, 0.1)
 plt.spy(coef_matr, markersize=7, marker='.', color='blue')
 plt.grid()
 plt.title('Visualization of coefficient matrix.')
 plt.show()
-
 
 print('Matrix of coefficients: \n', coef_matr, '\n')
 print('Right part of matrix: \n', right_part, '\n')
@@ -73,8 +62,8 @@ def lu_solver(coef_matr, right_part):
             zero_matr[i, j] = x[flag]
             flag += 1
     solution_matr = zero_matr
-    print('Solutions matrix:\n', solution_matr, '\n')
 
+    print('Solutions matrix:\n', solution_matr, '\n')
     print('Solution time: ', finish - start)
 
     plt.imshow(solution_matr, cmap='rainbow')
@@ -100,7 +89,7 @@ def lu_solver(coef_matr, right_part):
     plt.plot(grid_size, times)
     plt.xlabel('Size of grid')
     plt.ylabel('Solution time')
-    plt.grid(alpha=0.25)
+    plt.grid()
     plt.show()
 
 lu_solver(coef_matr, right_part)
