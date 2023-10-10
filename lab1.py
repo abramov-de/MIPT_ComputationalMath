@@ -33,28 +33,8 @@ def finite_difference(h, c):
     right_part = np.empty(num_of_equation)
     right_part.fill(h ** 2)
 
-    return coef_matr, right_part, clmn_num, row_num, zero_matr
-
-
-coef_matr, right_part, clmn_num, row_num, zero_matr = finite_difference(1/150, 0.1)
-plt.spy(coef_matr, markersize=7, marker='.', color='blue')
-plt.grid()
-plt.title('Visualization of coefficient matrix.')
-plt.show()
-
-print('Matrix of coefficients: \n', coef_matr, '\n')
-print('Right part of matrix: \n', right_part, '\n')
-
-
-def lu_solver(coef_matr, right_part):
-    start = time.time()
-
     lu, piv = linalg.lu_factor(coef_matr)
     x = linalg.lu_solve((lu, piv), right_part)
-
-    finish = time.time()
-
-    print('Solutions:\n', x, '\n')
 
     flag = 0
     for j in range(1, clmn_num - 1):
@@ -63,12 +43,29 @@ def lu_solver(coef_matr, right_part):
             flag += 1
     solution_matr = zero_matr
 
-    print('Solutions matrix:\n', solution_matr, '\n')
-    print('Solution time: ', finish - start)
+    return coef_matr, right_part, x, solution_matr
 
-    plt.imshow(solution_matr, cmap='rainbow')
-    plt.show()
 
+finite_difference(1 / 4, 0.1)
+coef_matr, right_part, x, solution_matr = finite_difference(1 / 4, 0.1)
+
+plt.spy(coef_matr, markersize=7, marker='.', color='blue')
+plt.grid()
+plt.title('Visualization of coefficient matrix.')
+plt.show()
+
+print('Matrix of coefficients: \n', coef_matr, '\n')
+print('Right part of matrix: \n', right_part, '\n')
+
+print('Solutions:\n', x, '\n')
+
+print('Solutions matrix:\n', solution_matr, '\n')
+
+plt.imshow(solution_matr, cmap='rainbow')
+plt.show()
+
+
+def time_vs_grid():
     flag = 0
     grid_size = []
     times = []
@@ -76,6 +73,7 @@ def lu_solver(coef_matr, right_part):
     while flag == 0:
         start = time.time()
         finite_difference(1 / h_denominator, 0.1)
+
         finish = time.time()
         grid_size.append(h_denominator + 1)
         times.append(finish - start)
@@ -92,4 +90,5 @@ def lu_solver(coef_matr, right_part):
     plt.grid()
     plt.show()
 
-lu_solver(coef_matr, right_part)
+
+time_vs_grid()
