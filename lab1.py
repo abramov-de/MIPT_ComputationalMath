@@ -31,7 +31,14 @@ def finite_difference(h, c):
     #     print(coef_matr, file=f)
 
     right_part = np.empty(num_of_equation)
-    right_part.fill(h ** 2)
+    # right_part.fill(h ** 2)
+    for i in range(len(right_part)):
+        if i == 4900:
+            right_part[i] = h ** 2
+        else:
+            right_part[i] = 0
+
+
 
     lu, piv = linalg.lu_factor(coef_matr)
     x = linalg.lu_solve((lu, piv), right_part)
@@ -46,8 +53,8 @@ def finite_difference(h, c):
     return coef_matr, right_part, x, solution_matr
 
 
-finite_difference(1 / 4, 0.1)
-coef_matr, right_part, x, solution_matr = finite_difference(1 / 4, 0.1)
+finite_difference(1 / 100, 0.1)
+coef_matr, right_part, x, solution_matr = finite_difference(1 / 100, 0.1)
 
 plt.spy(coef_matr, markersize=7, marker='.', color='blue')
 plt.grid()
